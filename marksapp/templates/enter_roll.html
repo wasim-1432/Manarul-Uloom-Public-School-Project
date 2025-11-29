@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><title>Enter Details</title></head>
+<body style="font-family:Arial; text-align:center; margin-top:100px;">
+    <h1>CBSE Progress Report 2024-25</h1>
+    <h2>MANARUL ULOOM PUBLIC SCHOOL</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <p><input type="text" name="roll_no" placeholder="Enter Roll No" required style="padding:10px; font-size:18px;"></p>
+        <p><input type="text" name="name" placeholder="Enter Student Name" required style="padding:10px; font-size:18px;"></p>
+        <button type="submit" style="padding:15px 40px; background:#8B008B; color:white; border:none; font-size:18px;">
+            View Marksheet
+        </button>
+    </form>
+
+    {% if error %}
+        <p style="color:red; margin-top:20px;">{{ error }}</p>
+    {% endif %}
+
+    <br><br>
+
+    <!-- ⭐ ADMIN LOGIN BUTTON ADD KIYA -->
+    <a href="/admin/" 
+       style="padding:12px 30px; 
+              background:#333; 
+              color:white; 
+              text-decoration:none; 
+              font-size:18px;
+              border-radius:5px;">
+        Admin Login
+    </a>
+
+</body>
+</html>

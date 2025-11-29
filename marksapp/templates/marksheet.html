@@ -1,0 +1,312 @@
+{% load grade_filter %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progress Report - {{ student.name }}</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            margin: 20px; 
+            background:white;
+        }
+        body {
+                border: 3px solid #f11368;
+                padding: 10px;     
+                margin: 0;        
+        }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        td, th { border: 1px solid #000; padding: 6px; text-align: center; font-size: 14px; }
+        .header { background:#d57b0d; font-weight: bold; }
+        .subject { text-align: left; padding-left: 15px; background: #f8f8f8; }
+        .total { background: #d9ead3; font-weight: bold; }
+        @media print { body { background: white; } .no-print { display: none; } }
+
+        .logo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            border-bottom: 4px double #8B008B;
+            margin-bottom: 15px;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            background-color: white !important;
+        }
+        .school-info {
+            text-align: center;
+            flex-grow: 1;
+        }
+        .school-info h1 {
+            margin: 0;
+            font-size: 46px;
+            color: #C00000;
+            font-weight: bold;
+        }
+        .school-info h2 {
+            margin: 8px 0 0 0;
+            font-size: 32px;
+            color: green;
+            font-weight: bold;
+        }
+        .affiliated {
+            font-size: 19px;
+            color: #333;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        .session-title {
+            font-size: 34px;
+            color: #8B008B;
+            font-weight: bold;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<div style="display:flex; justify-content:space-between; padding:0 30px; font-weight:bold; font-size:16px;">
+    <div style="color:#d40000;">School Code : 71154</div>
+    <div>Affiliation No. 2131089</div>
+</div>
+
+<div class="logo-header">
+    <div>
+        <img src="{% static 'cbselogo.jpg' %}" alt="CBSE Logo" class="logo">
+    </div>
+    <div class="school-info">
+        <h1>MANARUL ULOOM PUBLIC SCHOOL</h1>
+        <h2>RUKUNPUR, TILOI, AMETHI</h2>
+        <div class="affiliated">(Affiliated to CBSE New Delhi)</div>
+        <div class="session-title">PROGRESS REPORT SESSION {{ student.session }}</div>
+    </div>
+    <div>
+        <img src="{% static 'manalogo.jpg' %}" alt="School Logo" class="logo">
+    </div>
+</div>
+
+<table style="margin-top:20px;">
+    <tr>
+        <td><b>Name:</b> {{ student.name }}</td>
+        <td><b>Roll No:</b> {{ student.roll_no }}</td>
+        <td><b>Class:</b> {{ student.class_section }}</td>
+    </tr>
+    <tr>
+        <td><b>Father's Name:</b> {{ student.fathers_name|default:"-" }}</td>
+        <td colspan="2"><b>Mother's Name:</b> {{ student.mothers_name|default:"-" }}</td>
+    </tr>
+</table>
+
+<br>
+
+<table>
+    <tr class="header">
+        <th rowspan="2">Subject</th>
+        <th colspan="4">Term 1 (100 Marks)</th>
+        <th colspan="4">Term 2 (100 Marks)</th>
+        <th colspan="2">Final (200 Marks)</th>
+    </tr>
+    <tr class="header">
+        <th style="padding:4px 2px;">
+            <div style="border-bottom:1px solid #000; padding-bottom:2px;">PT</div>
+            <div style="font-size:11px; color:#333;">out of 10</div>
+        </th>
+        <th style="padding:4px 2px;">
+            <div style="border-bottom:1px solid #000; padding-bottom:2px;">Note Book</div>
+            <div style="font-size:11px; color:#333;">out of 5</div>
+        </th>
+        <th style="padding:4px 2px;">
+            <div style="border-bottom:1px solid #000; padding-bottom:2px;">Sub.Enrich Merit</div>
+            <div style="font-size:11px; color:#333;">out of 5</div>
+        </th>
+        <th style="padding:4px 2px;">
+            <div style="border-bottom:1px solid #000; padding-bottom:2px;">Half Yearly Exam</div>
+            <div style="font-size:11px; color:#333;">out of 80</div>
+        </th>
+
+        <th style="padding:4px 2px;">
+            <div style="border-bottom:1px solid #000; padding-bottom:2px;">PT</div>
+            <div style="font-size:11px; color:#333;">out of 10</div>
+        </th>
+        <th style="padding:4px 2px;">
+            <div style="border-bottom:1px solid #000; padding-bottom:2px;">Note Book</div>
+            <div style="font-size:11px; color:#333;">out of 5</div>
+        </th>
+        <th style="padding:4px 2px;">
+            <div style="border-bottom:1px solid #000; padding-bottom:2px;">Sub.Enrich Merit</div>
+            <div style="font-size:11px; color:#333;">out of 5</div>
+        </th>
+        <th style="padding:4px 2px;">
+            <div style="border-bottom:1px solid #000; padding-bottom:2px;">Annual Exam</div>
+            <div style="font-size:11px; color:#333;">out of 80</div>
+        </th>
+
+        <th style="padding:8px 2px;">Marks</th>
+        <th style="padding:8px 2px;">Grade</th>
+    </tr>
+
+    {% for m in marks %}
+    <tr>
+        <td class="subject">{{ m.subject }}</td>
+        <td>{{ m.pt1 }}</td>
+        <td>{{ m.notebook_t1 }}</td>
+        <td>{{ m.sub_enrich_t1 }}</td>
+        <td>{{ m.half_yearly }}</td>
+        <td>{{ m.pt2 }}</td>
+        <td>{{ m.notebook_t2 }}</td>
+        <td>{{ m.sub_enrich_t2 }}</td>
+        <td>{{ m.annual }}</td>
+        <td class="total">{{ m.final_total }}</td>
+        <td class="total">{{ m.final_total|grade }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Final Result Table -->
+<table style="margin-top:0px;">
+    <tr style="font-size:17px;height: 50px;width: 10%;">
+        <td colspan="1">Term-I Max</td>
+        <td colspan="2">600</td>
+        <td colspan="1">Term-I Obtained</td>
+        <td colspan="2">{{ term1_total }} / 600</td>
+        <td colspan="3">Term-I Percent</td>
+        <td colspan="2">{{ term1_percent }}%</td>
+        <td colspan="3">Term-I Grade</td>
+        <td colspan="3">{{ term1_grade }}</td>
+        <td colspan="1">Term-II Max</td>
+        <td colspan="2">600</td>
+        <td colspan="3">Term-II Obtained</td>
+        <td colspan="2">{{ term2_total }} / 600</td>
+        <td colspan="3">Term-II Percent</td>
+        <td colspan="2">{{ term2_percent }}%</td>
+        <td colspan="3">Term-II Grade</td>
+        <td colspan="3">{{ term2_grade }}</td>
+    </tr>
+    <tr style="font-size:17px;height: 50px;width: 10%;">
+        <td colspan="10">Overall Percentage</td>
+        <td colspan="7">{{ overall_percent }}%</td>
+        <td colspan="10">Final Grade</td>
+        <td colspan="10">{{ overall_grade }}</td>
+    </tr>
+</table>
+
+<p style="margin-top: 0px; font-size:13px;">Note: AB indicate Absent in the Subject Exam.</p>
+
+{% for act in coscholastic %}
+    {% ifchanged act.activity.category %}
+        {% if not forloop.first %}</table>{% endif %}
+        
+        <table>
+            <tr>
+                <th colspan="3" style="color: #f11368; text-align: left;">
+                    {{ act.activity.get_category_display }}
+                </th>
+            </tr>
+
+            <tr style="background-color: #d57b0d; color:black; font-weight:bold;">
+                <th style="padding:12px;text-align: center;">Activity</th>
+                <th>Term 1 Grade</th>
+                <th>Term 2 Grade</th>
+            </tr>
+    {% endifchanged %}
+
+    <tr>
+        <td style="padding:12px; text-align:left;">{{ act.activity.name }}</td>
+        <td style="text-align:center;">{{ act.term1_grade }}</td>
+        <td style="text-align:center;">{{ act.term2_grade }}</td>
+    </tr>
+
+{% endfor %}
+
+{% if coscholastic %}
+</table>
+{% endif %}
+
+<table>
+    <tr>
+        <td colspan="10" style="color: #f11368;text-align: left;"><b>Attandance</b></td>
+    </tr>
+    <tr>
+        <td style="background-color: #d57b0d;"></td>
+        <td>Term 1</td>
+        <td></td>
+        <td>Term 2</td>
+        <td></td>
+    </tr>
+</table>
+
+<table style="width:100%; table-layout: fixed; border-collapse: collapse;">
+    <tr>
+        <td colspan="2" style="background-color: #d57b0d; text-align: left; width:8.5%;">Remarks</td>
+        <td colspan="15" style="width:91.5%;"></td>
+    </tr>
+</table>
+
+<!-- Signature Section -->
+<br>
+<table style="table-layout: fixed; border-collapse: collapse; margin-top: -20px; width:100%;">
+    <tr>
+        <td colspan="3" style="background-color: #d57b0d; text-align: left;">Result</td>
+        <td colspan="6"></td>
+    </tr>
+
+    <tr style="height: 90px;">
+        <td colspan="3" style="text-align:center; line-height: 60px;">Teacher</td>
+        <td colspan="3" style="text-align:center; line-height: 60px;">Parent</td>
+        <td colspan="3" style="text-align:center; line-height: 60px;">Principal</td>
+    </tr>
+</table>
+
+<table style="width:100%; table-layout: fixed; border-collapse: collapse;">
+    <tr>
+        <td colspan="2" style="background-color: #d57b0d; text-align: left; width:8.5%;">Exam Result Date</td>
+        <td colspan="15" style="width:91.5%;"></td>
+    </tr>
+</table>
+
+<!-- Print + PDF Buttons -->
+<center class="no-print" style="margin-top:30px;">
+    <button onclick="window.print()" style="padding:16px 50px; font-size:20px; background:#8B008B; color:white; border:none; margin:10px; cursor:pointer;">
+        Print Marksheet
+    </button>
+
+    <button onclick="generatePDF()" style="padding:18px 60px; font-size:22px; background:#d40000; color:white; border:none; margin:10px; cursor:pointer;">
+        Download PDF (A4 Colorful)
+    </button>
+</center>
+
+<!-- PDF Generation Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+function generatePDF() {
+    const { jsPDF } = window.jspdf;
+
+    // 🔥 Hide buttons before capturing
+    document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
+
+    html2canvas(document.body, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true
+    }).then(canvas => {
+
+        // ✅ Show buttons again after capture
+        document.querySelectorAll('.no-print').forEach(el => el.style.display = 'block');
+
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const width = pdf.internal.pageSize.getWidth();
+        const height = pdf.internal.pageSize.getHeight();
+        pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+        pdf.save("{{ student.name|slugify }}_Progress_Report_{{ student.roll_no }}.pdf");
+    });
+}
+</script>
+
+</body>
+</html>
